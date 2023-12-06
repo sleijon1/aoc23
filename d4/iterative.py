@@ -12,6 +12,3 @@ for i, n in enumerate(N):
 
 print(sum([2**(w-1) for w in win_num.values() if w]),
       sum(N))
-
-# inspiration from looking at reddit, no particular solutions, just made
-# me realize recursion wasnt needed here
