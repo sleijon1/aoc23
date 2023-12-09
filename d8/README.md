@@ -21,7 +21,7 @@ print(a_lcm == z_lcm)
 > True
 ```
 
-This wasnt sufficient to immediately use LCM as as a solution however. We needed to ensure that we land on Z from A at the first instruction. Testing this:
+This wasnt sufficient to immediately use LCM as a solution however. We needed to ensure that we land on Z from A at the first instruction. Testing this:
 
 ```python
 print(all([s % len(instr) == 0 for s in map(find_z, a_starts)]))
@@ -30,7 +30,7 @@ print(all([s % len(instr) == 0 for s in map(find_z, a_starts)]))
 > True
 ```
 
-These two investigations into the data confirms that for this input LCM of all steps it takes for each start A to each end Z will be the solution. Quite tricky that such assumptions were backed into the problem, simplifying it greatly. On the other hand, if you are comfortable with these types of LCM problems you would most likely know what types of simplifications to look for.
+These two investigations into the data confirms that for this input LCM of all steps it takes for each start A to each end Z will be the solution. Quite tricky that such assumptions were baked into the problem, simplifying it greatly. On the other hand, if you are comfortable with these types of LCM problems you would most likely know what types of simplifications to look for.
 
 
 Still not sure how to solve the general problem but to solve a similar problem one insight is important:
