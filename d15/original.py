@@ -1,5 +1,6 @@
 import collections as c
 from dataclasses import dataclass
+
 def hash(string):
     current = 0
     for char in string:
@@ -29,34 +30,36 @@ for val in d:
         label, foc = val.split(splitter)
         node = Node(foc=int(foc), label=label)
     box_nr = hash(label)
-    #print(label, foc, splitter)
-    #print(boxes)
     if label in boxes[box_nr]:
         next_node = boxes[box_nr][label]._next
         previous_node = boxes[box_nr][label]._previous
+
         if splitter == '=':
-            # this is screwed
-            # next_node needs to point to
-            # new node with prev
-            # previous_node need to point to
-            # node with next
             node._next = next_node
             node._previous = previous_node
+            if boxes[box_nr]['last'] == boxes[box_nr][label]:
+                boxes[box_nr]['last'] = node
             boxes[box_nr][label] = node
             try:
-                next_node._next._previous = node
+                next_node._previous = node
+            except AttributeError:
+                pass
+            try:
                 previous_node._next = node
             except AttributeError:
-                boxes[box_nr]['last'] = node
-                # solo node was there
+                # single element
                 pass
         else:
+            remove_node = boxes[box_nr][label]
+            try:
+                next_node._previous = remove_node._previous
+            except AttributeError:
+                pass
             try:
                 previous_node._next = next_node
             except AttributeError:
                 # single element
                 pass
-            remove_node = boxes[box_nr][label]
             del boxes[box_nr][label]
             if remove_node == boxes[box_nr]['last']:
                 if next_node:
@@ -73,20 +76,15 @@ for val in d:
             boxes[box_nr]['last'] = node
             boxes[box_nr][label] = node
 
-print(boxes)
 sum = 0
 for i in boxes.keys():
-    print('i', i)
-    j = 0
-    partial = 0
+    j, partial = 0, 0
     try:
         _node = boxes[i]['last']
         while _node:
-            print(_node._next)
             partial += (i+1)*(len(boxes[i]) - 1 - j)*_node.foc
             _node = _node._next
             j += 1
-        print('partial', partial)
         sum += partial
     except KeyError:
         pass
